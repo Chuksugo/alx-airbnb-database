@@ -123,7 +123,7 @@ Find all users who have made **more than 3 bookings**.
 
 ## 🧑‍💻 Author
 
-This project was created for the ALX Backend Advanced SQL module.ls
+This project was created for the ALX Backend Advanced SQL module
 
 
 # SQL Aggregation & Window Functions – Airbnb-style Data Analysis
