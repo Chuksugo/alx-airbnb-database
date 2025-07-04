@@ -1,3 +1,5 @@
+-- 1. Aggregation: Total number of bookings made by each user
+
 SELECT 
     USER.ID AS USER_ID,
     USER.NAME,
@@ -10,19 +12,21 @@ GROUP BY
     USER.ID, USER.NAME
 ORDER BY 
     TOTAL_BOOKINGS DESC;
--- This query retrieves the total number of bookings made by each user,
+
+
+
+-- 2. Window function: Rank properties based on total number of bookings using ROW_NUMBER()
 
 SELECT 
     PROPERTY.ID AS PROPERTY_ID,
-    PROPERTY.HOST_ID,
+    PROPERTY.NAME,
     COUNT(BOOKING.ID) AS TOTAL_BOOKINGS,
-    RANK() OVER (ORDER BY COUNT(BOOKING.ID) DESC) AS PROPERTY_RANK
+    ROW_NUMBER() OVER (ORDER BY COUNT(BOOKING.ID) DESC) AS PROPERTY_RANK
 FROM 
     PROPERTY
 LEFT JOIN 
     BOOKING ON PROPERTY.ID = BOOKING.PROPERTY_ID
 GROUP BY 
-    PROPERTY.ID, PROPERTY.HOST_ID
+    PROPERTY.ID, PROPERTY.NAME
 ORDER BY 
     PROPERTY_RANK;
--- ranking properties based on the number of bookings they have received.
