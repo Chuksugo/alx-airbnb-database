@@ -1,4 +1,4 @@
--- Initial unoptimized query: Join all related details for a booking
+-- 🔹 Initial complex query (unoptimized)
 SELECT 
     booking.id AS booking_id,
     user.id AS user_id,
@@ -18,7 +18,9 @@ JOIN
 JOIN 
     payment ON booking.id = payment.booking_id;
 
--- Analyze the query to identify bottlenecks
+
+
+-- 🔍 Analyze the performance of the initial query
 EXPLAIN ANALYZE
 SELECT 
     booking.id AS booking_id,
@@ -39,7 +41,9 @@ JOIN
 JOIN 
     payment ON booking.id = payment.booking_id;
 
--- Refactored version (optimized)
+
+
+-- ✅ Refactored query with filtering (WHERE + AND)
 SELECT 
     b.id AS booking_id,
     u.name AS user_name,
@@ -53,4 +57,9 @@ JOIN
 JOIN 
     property p ON b.property_id = p.id
 JOIN 
-    payment py ON b.id = py.booking_id;
+    payment py ON b.id = py.booking_id
+WHERE 
+    b.created_at >= CURRENT_DATE - INTERVAL '30 days'
+    AND py.status = 'completed'
+ORDER BY 
+    b.created_at DESC;
